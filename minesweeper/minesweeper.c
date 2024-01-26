@@ -31,10 +31,13 @@
     #include <stdlib.h>
     #include <time.h>
 
-    #define SIZE 8
-    #define BOMB_COUNT 10
-
-    void initializeBoard(int board[][SIZE]) {
+    #define SIZE 8 // constante que define o tamanho do tabuleiro com 8
+    #define BOMB_COUNT 10 // constante que define o numero de bombas com 10
+    /*  
+        Inicializa o tabuleiro: recebe uma matriz de inteiros que neste caso é o tabuleiro
+        preenche todas as posições da matriz com -2 (significa sem bombas)
+    */
+    void initializeBoard(int board[][SIZE]) { 
         // Initializes the board with zeros
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
@@ -43,6 +46,15 @@
         }
     }
 
+    /* 
+        Coloca as bombas em posições aleatórias: recebe uma matriz de inteiros (tabuleiro)
+        iniciliza um 'for' que se repete 10 vezes, guarda em duas variaveis a operação de 
+        resto da divisão de um número aleatório por SIZE enquanto o valor na posição 
+        sorteada 'board[row][column]' for igual a -1, ou seja já tem -1 ali, 
+        como o board foi preenchido com -2 a condição é falsa e logo é atribuído -1 a essa posição
+        sorteada e o 'for' itera mais uma vez.
+        -1 significa que há uma bomba na posição.
+    */
     void placeBombs(int board[][SIZE]) {
         srand(time(NULL));
         // Places bombs randomly on the board
@@ -56,6 +68,14 @@
         }
     }
 
+    /* 
+        Imprimi o tabuleiro: recebe uma matriz de inteiros (tabuleiro) e um inteiro showBombs
+        que indica se as bombas devem ser mostradas ou não.
+        Imprimi o tabuleiro com as posições das bombas, se showBombs for igual a 1, ou seja,
+        se as bombas devem ser mostradas.
+        Imprimi o tabuleiro com as posições reveladas, se showBombs for igual a 0, ou seja,
+        se as bombas não devem ser mostradas.
+    */
     void printBoard(int board[][SIZE], int showBombs) {
         // Prints the board
         printf("    ");
@@ -81,6 +101,11 @@
         }
     }
 
+    /* 
+        Conta as bombas adjacentes: recebe uma matriz de inteiros (tabuleiro) e dois inteiros
+        que representam a linha e a coluna de uma posição do tabuleiro.
+        Conta o número de bombas adjacentes a uma célula.
+    */
     int countAdjacentBombs(int board[][SIZE], int row, int column) {
         // Counts the number of bombs adjacent to a cell
         int count = 0;
@@ -94,6 +119,13 @@
         return count;
     }
 
+    /* 
+        Revela as células adjacentes: recebe uma matriz de inteiros (tabuleiro) e dois inteiros
+        que representam a linha e a coluna de uma posição do tabuleiro.
+        Revela as células adjacentes a uma célula vazia. Se a posição estiver fora do tabuleiro
+        ou não for uma célula vazia, a função não faz nada. Mas se for uma célula vazia, a função
+        marca a célula como revelada e continua a revelação recursivamente.
+    */
     void revealAdjacentCells(int board[][SIZE], int row, int column) {
         // Reveals the adjacent cells of an empty cell
         for (int i = row - 1; i <= row + 1; ++i) {
@@ -101,13 +133,20 @@
                 if (i >= 0 && i < SIZE && j >= 0 && j < SIZE && board[i][j] == -2) {
                     int x = countAdjacentBombs(board, i, j); // Marks as revealed
                     board[i][j] = x;
-                    if (!x)
+                    if (!x) // Se não houver bombas adjacentes continua a revelação recursivamente
                         revealAdjacentCells(board, i, j); // Continues the revelation recursively
                 }
             }
         }
     }
 
+    /* 
+        Realiza a jogada: recebe uma matriz de inteiros (tabuleiro) e dois inteiros
+        que representam a linha e a coluna de uma posição do tabuleiro.
+        Realiza a jogada do jogador. Se a posição contiver uma bomba, o jogo acaba. Se a posição
+        contiver uma célula vazia, a função revela as células adjacentes. Se a posição contiver
+        um número, a função marca a célula como revelada.
+    */
     int play(int board[][SIZE], int row, int column) {
         // Performs the move
         if (board[row][column] == -1) {
@@ -122,6 +161,11 @@
         return 1; // Game continues
     }
 
+    /* 
+        Verifica se o jogador venceu: recebe uma matriz de inteiros (tabuleiro).
+        Verifica se o jogador venceu o jogo. Se todas as células válidas estiverem reveladas,
+        o jogador venceu. Se não, o jogo continua.
+    */
     int checkVictory(int board[][SIZE]) {
         int count = 0;
         // Checks if the player has won
@@ -132,14 +176,20 @@
                 }
             }
         }
-        if (count < SIZE * SIZE - BOMB_COUNT)
+        if (count < SIZE * SIZE - BOMB_COUNT) // Se o número de células reveladas for menor que o número de células válidas menos o número de bombas, o jogo continua
             return 0;
         return 1; // All valid cells have been revealed
     }
 
+    /* 
+        Função principal: não recebe nenhum parâmetro.
+        Inicializa o tabuleiro, coloca as bombas, e realiza a jogada do jogador até que o jogo acabe.
+        Se o jogador acertar uma bomba, o jogo acaba e o jogador perde. Se o jogador revelar todas as
+        células válidas, o jogador vence.
+    */
     int main() {
         int board[SIZE][SIZE];
-        int gameActive = 1;
+        int gameActive = 1; // 1 significa que o jogo está ativo e 0 significa que o jogo acabou
         int row, column;
 
         initializeBoard(board);
