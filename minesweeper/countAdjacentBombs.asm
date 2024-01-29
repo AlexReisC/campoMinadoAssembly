@@ -19,4 +19,23 @@ save_context
         addi $t1, $s2, 1 # $t1 = column + 1
         bge $s5, $t1, end_for_j_it # if (j > column + 1) break
 
+    slt $t0, $s4, $zero # if (i >= 0)
+    bne $t0, $zero, end_for_i_it # break
+    slt $t0, $s4, SIZE # if(i < SIZE)
+    beq $t0, $zero, end_for_i_it # break
+    slt $t0, $s5, $zero # if (j >= 0)
+    bne $t0, $zero, end_for_j_it # break
+    slt $t0, $s5, SIZE # if (j < SIZE)
+    beq $t0, $zero, end_for_j_it # break
+    # board[i][j] == -1
+
+    addi $s3, $s3, 1 # count++
+    addi $s5, $s5, 1 # j++
+    j begin_for_j_it 
+    end_for_j_it:
+    addi $s4, $s4, 1 # i++
+    j begin_for_i_it
+    end_for_i_it:
+    restore_context
+    jr $ra
     
