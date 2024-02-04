@@ -2,6 +2,8 @@
 
 .globl countAdjacentBombs
 
+#AVISO: ESSE ARQUIVO N VEIO COMO CODIGO BASE
+
 countAdjacentBombs:
 save_context
     move $s0, $a0 # $s0 = board
