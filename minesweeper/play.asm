@@ -3,4 +3,7 @@
 .globl play
 
 play:
-# your code here
+	move $s0, $a0
+	move $s1, $a1
+	move $s2, $a2
+	
