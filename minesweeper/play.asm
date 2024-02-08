@@ -3,6 +3,7 @@
 .globl play
 
 play:
+	save_context
 	move $s0, $a0 # board
 	move $s1, $a1 # row
 	move $s2, $a2 # colunm
@@ -17,8 +18,12 @@ play:
 	addi $t1, $t1, -1
 	bne $t0, $t1, continue_game
 	
-	# x = countAdjacentBoms(boar, row, colunm)
+	# x = countAdjacentBoms(board, row, colunm)
+	jal countAdjacentBombs
+	move $s3, $v0
 	# if(!x)
+	bne $s3, $zero, continue_game
+	jal revealNeighboringCells
 	
 	end_play_hit_bomb:
 	move $v0, $zero
