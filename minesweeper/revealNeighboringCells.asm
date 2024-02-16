@@ -40,7 +40,7 @@ revealNeighboringCells:
   jal countAdjacentBombs
   move $t1, $v0 # x = countAdjacentBombs(board, i, j)
   sw $t1, 0($t0) # board[i][j] = x
-  bne $t1, $zero, x_no_zero_rv
+  beq $t1, $zero, x_zero_rv
 	
 	addi $s4, $s4, 1
 	j begin_for_j_rv
@@ -53,5 +53,5 @@ revealNeighboringCells:
 		restore_context
     jr $ra
 	  
-  x_no_zero_rv:
+  x_zero_rv:
     jal revealNeighboringCells
