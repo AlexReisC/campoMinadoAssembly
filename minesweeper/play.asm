@@ -17,7 +17,7 @@ play:
 	beq $t1, $t2, hit_bomb
 	
 	li $t2, -2
-	bne $t1, $t2, entry_if
+	beq $t1, $t2, entry_if
 	
 	hit_bomb:
 		move $v0, $zero
