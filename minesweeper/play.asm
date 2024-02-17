@@ -28,9 +28,9 @@ play:
 		jal countAdjacentBombs
 		move $s3, $v0
 		sw $s3, 0($t0) # board[row][colunm] = x
-		bne $s3, $zero, x_no_zero_p
+		beq $s3, $zero, x_zero_p
 	
-	x_no_zero_p:
+	x_zero_p:
 		jal revealNeighboringCells # revealNeighboringCells(board, row, colunm)
 	
 	li $t3, 1
