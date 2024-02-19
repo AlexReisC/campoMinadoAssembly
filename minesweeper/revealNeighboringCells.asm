@@ -29,8 +29,8 @@ revealNeighboringCells:
 	sll $t0, $s3, 5 # i*4*SIZE
 	sll $t1, $s4, 2 # j*4
 	add $t0, $t0, $t1 # (i*4*SIZE + j*4)
-	add $t0, $t0, $s0 # ((i*4)*SIZE + j*4) + &board
- 	lw $t1, 0($t0) # $t0 = board[i][j]
+	add $s5, $t0, $s0 # ((i*4)*SIZE + j*4) + &board
+ 	lw $t1, 0($s5) # $t0 = board[i][j]
 	li $t2, -2
 	bne $t1, $t2, end_for_j_rv # if (board[i][j] != -2) break
   
@@ -38,7 +38,7 @@ revealNeighboringCells:
 	move $a2, $s4
 	jal countAdjacentBombs
 	move $t1, $v0 # x = countAdjacentBombs(board, i, j)
-	sw $t1, 0($t0) # board[i][j] = x
+	sw $t1, 0($s5) # board[i][j] = x
 	beq $t1, $zero, x_zero_rv
 	
 	addi $s4, $s4, 1

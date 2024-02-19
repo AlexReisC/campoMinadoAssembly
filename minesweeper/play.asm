@@ -11,8 +11,8 @@ play:
 	sll $t0, $s1, 5 # row*4*SIZE
 	sll $t1, $s2, 2 # colunm*4
 	add $t0, $t0, $t1 
-	add $t0, $t0, $s0
-	lw $t1, 0($t0)
+	add $s3, $t0, $s0
+	lw $t1, 0($s3)
 	li $t2, -1
 	beq $t1, $t2, hit_bomb
 	
@@ -32,9 +32,9 @@ play:
 	entry_if:
 		# x = countAdjacentBoms(board, row, colunm)
 		jal countAdjacentBombs
-		move $s3, $v0
-		sw $s3, 0($t0) # board[row][colunm] = x
-		beq $s3, $zero, x_zero_p
+		move $t3, $v0
+		sw $t3, 0($s3) # board[row][colunm] = x
+		beq $t3, $zero, x_zero_p
 	
 	x_zero_p:
 		jal revealNeighboringCells # revealNeighboringCells(board, row, colunm)

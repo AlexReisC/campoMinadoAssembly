@@ -88,14 +88,14 @@ printBoard:
   li $a0, 32 									# print(" ")
   syscall
   	
-  sll $t2, $t0, 5
+	sll $t2, $t0, 5
 	sll $t3, $t1, 2
 	
 	add $t4, $t2, $t3
-	add $t3, $t4, $s0
-	lw  $t4, 0 ($t3)
+	add $s2, $t4, $s0
+	lw  $s3, 0($s2)
 	li $t7, -1
-	bne $t4, $t7, elseif_imt		# if (board[i][j] == -1 && showBombs) {
+	bne $s2, $t7, elseif_imt		# if (board[i][j] == -1 && showBombs) {
 	beqz $s1, elseif_imt		
 		
 	li $v0, 11
@@ -104,9 +104,9 @@ printBoard:
   j print_space
   	
 	elseif_imt:
-	blt $t4,$zero, else_imt			# else if (board[i][j] >= 0) {
+	blt $s3,$zero, else_imt			# else if (board[i][j] >= 0) {
 	li $v0, 1
-  move $a0, $t4 						  # printf(" %d ", board[i][j]); // Revealed cell
+  move $a0, $s3						  # printf(" %d ", board[i][j]); // Revealed cell
   syscall					
   j print_space  	
 		
