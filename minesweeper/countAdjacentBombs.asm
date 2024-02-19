@@ -2,8 +2,6 @@
 
 .globl countAdjacentBombs
 
-#AVISO: ESSE ARQUIVO N VEIO COMO CODIGO BASE
-
 countAdjacentBombs:
 	save_context
     move $s0, $a0 # $s0 = board
@@ -46,6 +44,7 @@ countAdjacentBombs:
 	
 	j begin_for_i_cb
     end_for_i_cb:
+    	restore_context
     	move $v0, $s3 # return count
     	jr $ra
     

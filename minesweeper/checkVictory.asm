@@ -36,10 +36,12 @@ checkVictory:
 		sub $t0, $t2, $t1 # SIZE * SIZE - BOM_COUNT
 		slt $t3, $s1, $t0
 		beq $t3, $zero, victory
+		restore_context
 		li $v0, 0 # return 0
 		jr $ra
 	
 	victory:
+		restore_context
 		li $v0, 1 # return 1
 		jr $ra
 

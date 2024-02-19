@@ -19,7 +19,13 @@ play:
 	li $t2, -2
 	beq $t1, $t2, entry_if
 	
+	restore_context
+	li $t3, 1
+	move $v0, $t3 # return 1
+	jr $ra
+	
 	hit_bomb:
+		restore_context
 		move $v0, $zero
 		jr $ra
 
@@ -33,6 +39,3 @@ play:
 	x_zero_p:
 		jal revealNeighboringCells # revealNeighboringCells(board, row, colunm)
 	
-	li $t3, 1
-	move $v0, $t3 # return 1
-	jr $ra
