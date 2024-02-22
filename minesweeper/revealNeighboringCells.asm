@@ -54,3 +54,5 @@ revealNeighboringCells:
 	  
 	x_zero_rv:
 		jal revealNeighboringCells
+		restore_context
+		jr $ra
