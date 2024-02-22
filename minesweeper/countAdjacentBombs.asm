@@ -44,7 +44,7 @@ countAdjacentBombs:
 	
 	j begin_for_i_cb
     end_for_i_cb:
-    	restore_context
     	move $v0, $s3 # return count
+    	restore_context
     	jr $ra
     

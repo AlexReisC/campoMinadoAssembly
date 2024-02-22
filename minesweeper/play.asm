@@ -35,7 +35,12 @@ play:
 		move $t3, $v0
 		sw $t3, 0($s3) # board[row][colunm] = x
 		beq $t3, $zero, x_zero_p
-	
+		restore_context
+		li $v0, 1
+		jr $ra
+			
 	x_zero_p:
 		jal revealNeighboringCells # revealNeighboringCells(board, row, colunm)
-	
+		restore_context
+		li $v0, 1
+		jr $ra
